@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\Forum\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +17,17 @@ use Illuminate\Support\Facades\Route;
  |
  */
 
-/* Customer auth routes */
+/* Auth routes */
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
+Route::middleware('auth:sanctum')->group(function () { 
+    /* Admin API */
+    Route::get('posts', [AdminPostController::class, 'index']);
+
+    /* Forum API */
+    Route::get('approved-posts', [PostController::class, 'index']);
+});
 
 Route::middleware('auth:sanctum')->get(
     '/user', function (Request $request) {
