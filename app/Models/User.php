@@ -13,6 +13,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const USER_TYPES = [ 1 => 'User', 2 => 'Admin' ];
+
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'type'
     ];
 
     /**
@@ -48,5 +51,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Question::class, 'user_id');
     }
+
+    public function getUserTypeAttribute()
+    {
+       
+        return self::USER_TYPES[$this->type];
+    }
+
+    protected $appends = ['user_type'];
 
 }
