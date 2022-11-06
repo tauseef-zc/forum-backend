@@ -1,5 +1,7 @@
 FROM php:8.0.25-fpm
 
+WORKDIR /var/www
+
 # Enable a2enmod
 #RUN a2enmod rewrite
 
