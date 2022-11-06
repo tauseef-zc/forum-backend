@@ -16,6 +16,11 @@ class AuthRepository extends BaseRepository implements AuthRepositoryInterface
         $this->model = $user;
     }
 
+    public function addUser(array $data): ?User
+    {
+        return $this->model->store($data);
+    }
+
     public function getUser(int $id): ?User
     {
         return $this->model->find($id);
