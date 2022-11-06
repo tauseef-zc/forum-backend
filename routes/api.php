@@ -27,6 +27,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /* Forum API */
     Route::get('approved-posts', [PostController::class, 'index']);
+
+    Route::prefix('dashboard')->group(function () {
+        Route::get('posts', [PostController::class, 'posts']);
+        Route::delete('posts/{id}', [PostController::class, 'delete']);
+    });
 });
 
 Route::middleware('auth:sanctum')->get(

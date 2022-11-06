@@ -24,10 +24,10 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
             ->paginate(12);
     }
     
-    public function searchByStatus(int $status, string $search): LengthAwarePaginator
+    public function searchBy(array $query, string $search): LengthAwarePaginator
     {
         return $this->model->where('question', 'LIKE', "%$search%")
-            ->where('status', "$status")
+            ->where($query)
             ->orderBy('created_at', 'DESC')
             ->paginate(12);
     }
