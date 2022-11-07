@@ -27,4 +27,16 @@ class Question extends Model
     {
         return $this->hasMany(Comment::class, 'question_id');
     }
+
+    public function getStatusTextAttribute()
+    {
+        if(isset($this->status) && !empty($this->status)){
+            return config('forum.post_statuses')[$this->status];
+        }
+
+        return 'Pending';
+    }
+
+    protected $appends = ['status_text'];
+    
 }

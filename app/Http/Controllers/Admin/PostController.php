@@ -65,14 +65,14 @@ class PostController extends Controller
             return response()->error('FAILED', $exception->getMessage());
        } 
     }
-        
-    /**
-     * Admin status update for Forum
-     *
-     * @param  mixed $request
-     * @param  mixed $id
-     * @return JsonResponse
-     */
+
+     /**
+      * Admin status update for Forum
+      *
+      * @param  PostStatusRequest $request
+      * @param  mixed $id
+      * @return JsonResponse
+      */
     public function updateStatus(PostStatusRequest $request, int $id): JsonResponse
     {
        try{
