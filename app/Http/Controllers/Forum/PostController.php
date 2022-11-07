@@ -85,7 +85,7 @@ class PostController extends Controller
 
             $message = 'Forum sumitted to admin successfully! It will be published once reviewed by the admin.';
 
-            return response()->ok('SUBMITTED', $message);
+            return response()->ok('SUBMITTED', $message, ['forum' => $post ]);
 
        }catch(Exception | Throwable $exception){
             return response()->error('FAILED', $exception->getMessage());

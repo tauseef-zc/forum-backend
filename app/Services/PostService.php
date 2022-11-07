@@ -89,6 +89,9 @@ class PostService extends BaseService implements PostServiceInterface
      */
     public function deletePost(int $id): bool
     {
+        $post = $this->getPost($id);
+        $post->comments()->delete();
+
         return $this->repo->delete($id);
     }    
     /**

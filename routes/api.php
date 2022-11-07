@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\Forum\CommentController;
 use App\Http\Controllers\Forum\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('posts', [PostController::class, 'posts']);
         Route::post('posts/submit', [PostController::class, 'submit']);
         Route::delete('posts/{id}', [PostController::class, 'delete']);
+        Route::post('posts/{id}/comment', [CommentController::class, 'submit']);
     });
 });
 
