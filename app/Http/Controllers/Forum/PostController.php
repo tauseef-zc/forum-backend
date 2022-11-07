@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Forum;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostCreateRequest;
 use App\Services\Interfaces\PostServiceInterface;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
@@ -42,7 +43,13 @@ class PostController extends Controller
             return response()->error('FAILED', $exception->getMessage());
        } 
     }
-
+    
+    /**
+     * Retrieve post for single user
+     *
+     * @param  mixed $request
+     * @return JsonResponse
+     */
     public function posts(Request $request): JsonResponse
     {
        try{
@@ -55,6 +62,30 @@ class PostController extends Controller
             return response()->ok('FETCHED', 'Forums successfully fetched!', [
                 'forums' => $posts 
             ]);
+
+       }catch(Exception | Throwable $exception){
+            return response()->error('FAILED', $exception->getMessage());
+       } 
+    }
+        
+    /**
+     * Submitting a new forum
+     *
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function submit(PostCreateRequest $request): JsonResponse
+    {
+       try{
+
+            $inputs = $request->only('question', 'user_id');
+            $post = $this->service->createPost($request->user(), $inputs);
+            
+            throw_unless($post, new Exception('Forums cannot be created.', 404));
+
+            $message = 'Forum sumitted to admin successfully! It will be published once reviewed by the admin.';
+
+            return response()->ok('SUBMITTED', $message);
 
        }catch(Exception | Throwable $exception){
             return response()->error('FAILED', $exception->getMessage());

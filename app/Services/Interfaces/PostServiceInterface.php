@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 interface PostServiceInterface extends ServiceInterface
 {
+    public function createPost(User $user, array $data): Model;
 
     public function searchPosts(string $search): LengthAwarePaginator;
 
@@ -17,5 +18,7 @@ interface PostServiceInterface extends ServiceInterface
     public function getPost(int $id): Model;
 
     public function deletePost(int $id): bool;
+
+    public function updateStatus(int $id, mixed $status): Model;
 
 }
