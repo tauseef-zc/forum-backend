@@ -12,6 +12,12 @@ class Question extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'question',
+        'status',
+        'user_id'
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

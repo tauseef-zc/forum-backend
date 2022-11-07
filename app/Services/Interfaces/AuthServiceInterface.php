@@ -4,7 +4,7 @@ namespace App\Services\Interfaces;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-interface AuthServiceInterface
+interface AuthServiceInterface extends ServiceInterface
 {
 
     public function addUser(array $data);

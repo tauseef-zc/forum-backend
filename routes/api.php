@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\Forum\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +17,28 @@ use Illuminate\Support\Facades\Route;
  |
  */
 
-/* Customer auth routes */
+/* Auth routes */
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
+Route::middleware('auth:sanctum')->group(function () { 
+    /* Admin API */
+    Route::prefix('admin')->middleware('admin')->group(function () {
+        Route::get('posts', [AdminPostController::class, 'index']);
+        Route::post('posts/submit', [AdminPostController::class, 'submit']);
+        Route::put('posts/{id}/status/update', [AdminPostController::class, 'updateStatus']);
+    });
+
+    /* Forum API */
+    Route::get('approved-posts', [PostController::class, 'index']);
+
+    /* User API */
+    Route::prefix('dashboard')->group(function () {
+        Route::get('posts', [PostController::class, 'posts']);
+        Route::post('posts/submit', [PostController::class, 'submit']);
+        Route::delete('posts/{id}', [PostController::class, 'delete']);
+    });
+});
 
 Route::middleware('auth:sanctum')->get(
     '/user', function (Request $request) {

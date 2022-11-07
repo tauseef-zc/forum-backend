@@ -16,8 +16,11 @@ class QuestionFactory extends Factory
      */
     public function definition()
     {
+        $status = rand(0, 2);
         return [
-            //
+            'question' => $this->faker->sentence(10),
+            'status' => "$status",
+            'user_id' => 1
         ];
     }
 }
