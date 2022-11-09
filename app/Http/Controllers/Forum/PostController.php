@@ -30,7 +30,7 @@ class PostController extends Controller
     {
        try{
 
-            $search = $request->has('search') ? $request->search : '';
+            $search = $request->has('search') && !empty($request->search) ? $request->search : '';
             $posts = $this->service->approvedPosts($search);
             
             throw_unless($posts, new Exception('Forums not found! Please tray again a while.', 404));
@@ -54,8 +54,8 @@ class PostController extends Controller
     {
        try{
 
-            $search = $request->has('search') ? $request->search : '';
-            $posts = $this->service->approvedPostsByUser($request->user()->id, $search);
+            $search = $request->has('search')  && !empty($request->search) ? $request->search : '';
+            $posts = $this->service->getPostsByUser($request->user()->id, $search);
             
             throw_unless($posts, new Exception('Forums not found! Please tray again a while.', 404));
             
@@ -106,10 +106,12 @@ class PostController extends Controller
             $post = $this->service->getPost($id);
             throw_unless($post, new Exception('Forum not found for the given query.', 404));
 
-            // Check user has permission to delete 
-            throw_if(request()->user()->id !== $post->user_id, 
-            new AuthenticationException("You don't have permission for this operation."));
-
+            if(request()->user()->type !== '2'){
+               // Check user has permission to delete 
+               throw_if(request()->user()->id !== $post->user_id, 
+               new AuthenticationException("You don't have permission for this operation."));
+            }
+            
             // Delete post action
             $delete = $this->service->deletePost($post->id);
             throw_if(!$delete, new Exception('Cannot delete Forum!'));
@@ -121,6 +123,30 @@ class PostController extends Controller
        }catch(Exception | Throwable $exception){
             return response()->error('FAILED', $exception->getMessage());
        } 
+    }
+    
+    /**
+     * Get a single post
+     *
+     * @param  mixed $id
+     * @return JsonResponse
+     */
+    public function getPost(int $id): JsonResponse
+    {
+          try {
+
+               $post = $this->service->getPost($id);
+               throw_unless($post, new Exception('Forums not found! Please tray again a while.', 404));
+
+               return response()->ok('FETCHED', 'Forums successfully fetched!', [
+                    'forum' => $post,
+                    'comments' => $post->comments,
+                    'user' => $post->user 
+               ]);
+
+          } catch (Exception | Throwable $exception) {
+               return response()->error('FAILED', $exception->getMessage());
+          } 
     }
 
 }

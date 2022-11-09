@@ -25,7 +25,7 @@ class Question extends Model
 
     public function comments(): HasMany
     {
-        return $this->hasMany(Comment::class, 'question_id');
+        return $this->hasMany(Comment::class, 'question_id')->latest();
     }
 
     public function getStatusTextAttribute()
