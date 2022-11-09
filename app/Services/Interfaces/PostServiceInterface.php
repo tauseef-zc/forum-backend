@@ -13,7 +13,7 @@ interface PostServiceInterface extends ServiceInterface
 
     public function approvedPosts(string $search): LengthAwarePaginator;
 
-    public function approvedPostsByUser(int $id, string $search): LengthAwarePaginator;
+    public function getPostsByUser(int $id, string $search): LengthAwarePaginator;
 
     public function getPost(int $id): Model;
 

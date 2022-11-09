@@ -21,6 +21,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
     {
         return $this->model->where('question', 'LIKE', "%$search%")
             ->orderBy('created_at', 'DESC')
+            ->with('user')
             ->paginate(12);
     }
     
@@ -29,6 +30,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         return $this->model->where('question', 'LIKE', "%$search%")
             ->where($query)
             ->orderBy('created_at', 'DESC')
+            ->with('user')
             ->paginate(12);
     }
 }

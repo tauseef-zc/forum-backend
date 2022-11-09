@@ -30,7 +30,7 @@ class PostController extends Controller
     {
        try{
 
-            $search = $request->has('search') ? $request->search : '';
+            $search = $request->has('search')  && !empty($request->search) ? $request->search : '';
             $posts = $this->service->searchPosts($search);
             
             throw_unless($posts, new Exception('Forums not found! Please tray again a while.', 404));

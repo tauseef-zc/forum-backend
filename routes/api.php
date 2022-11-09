@@ -27,11 +27,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('admin')->middleware('admin')->group(function () {
         Route::get('posts', [AdminPostController::class, 'index']);
         Route::post('posts/submit', [AdminPostController::class, 'submit']);
+        Route::delete('posts/{id}', [PostController::class, 'delete']);
         Route::put('posts/{id}/status/update', [AdminPostController::class, 'updateStatus']);
     });
 
     /* Forum API */
-    Route::get('approved-posts', [PostController::class, 'index']);
+    Route::get('posts', [PostController::class, 'index']);
+    Route::get('posts/{id}', [PostController::class, 'getPost']);
 
     /* User API */
     Route::prefix('dashboard')->group(function () {

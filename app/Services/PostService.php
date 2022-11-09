@@ -64,9 +64,9 @@ class PostService extends BaseService implements PostServiceInterface
      * @param  string $search
      * @return LengthAwarePaginator
      */
-    public function approvedPostsByUser(int $id, string $search): LengthAwarePaginator
+    public function getPostsByUser(int $id, string $search = ""): LengthAwarePaginator
     {
-        $user = [ 'user_id' => $id, 'status' => '1'  ];
+        $user = [ 'user_id' => $id ];
         return $this->repo->searchBy($user, $search);
     }
     
